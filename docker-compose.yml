@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  jupyter:
+    image: classtag/ds-nbs:latest
+    build: docker
+    container_name: ds-nbs
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/duoan/work
+
+    user: root
+    environment:
+      - NB_USER=${NB_USER}
+      - NB_UID=${NB_UID}
+      - NB_GID=${NB_GID}
+      - GRANT_SUDO=yes
+      - CHOWN_HOME=yes
+      - CHOWN_HOME_OPTS=-R

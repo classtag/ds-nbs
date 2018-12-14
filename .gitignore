@@ -1,0 +1,4 @@
+input/*
+!input/.gitme
+notebook/cache
+!notebook/cache/.gitme
