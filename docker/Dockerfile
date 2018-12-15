@@ -1,5 +1,4 @@
-
-FROM jupyter/tensorflow-notebook
+FROM jupyter/scipy-notebook
 
 USER root
 
@@ -11,10 +10,31 @@ RUN apt-get update && \
 
 USER jovyan
 
-RUN conda install --quiet --yes \
-    graphviz
+RUN conda install --quiet --yes graphviz
 
-RUN conda install --quiet --yes -c conda-forge \
+RUN conda install --quiet --yes -c conda-forge jupyter_contrib_nbextensions
+RUN jupyter contrib nbextension install --user
+RUN jupyter nbextension enable codefolding/main
+
+
+RUN conda install pytorch-cpu torchvision-cpu --quiet --yes -c pytorch
+
+RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
+    ln -s $CONDA_DIR/bin/pip $CONDA_DIR/bin/pip3
+
+RUN pip3 install --upgrade pip
+#RUN pip3 install jupyterthemes
+# RUN jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
+#RUN jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
+RUN pip3 install \
+    matplotlib_venn \
+    plotly \
+    bubbly \
+    missingno \
+    xgboost \
+    lightgbm \
+    catboost \
+    lightfm \
     eli5 \
     scikit-plot \
     scikit-optimize \
@@ -25,23 +45,12 @@ RUN conda install --quiet --yes -c conda-forge \
     yapf \
     tensorflow \
     keras \
-    lightgbm \
-    xgboost \
-    lightfm \
     wordcloud \
     spacy \
     nltk
 
-RUN conda install -c plotly plotly 
-RUN conda install pytorch-cpu torchvision-cpu --quiet --yes -c pytorch
-#RUN conda install --quiet --yes -c omnia skorch
-
-
-RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
-    ln -s $CONDA_DIR/bin/pip $CONDA_DIR/bin/pip3
-
-RUN pip3 install --upgrade pip
-RUN pip3 install jupyterthemes
-# RUN jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
-RUN jt -t grade3 -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
-RUN pip3 install matplotlib_venn bubbly
+RUN git clone -b 8.6.0 https://github.com/JohnLangford/vowpal_wabbit.git && \
+    ./vowpal_wabbit/python/conda_install.sh && \
+    # Reinstall in non-editable mode (without the -e flag)
+    pip install vowpal_wabbit/python
+    rm -rf vowpal_wabbit
