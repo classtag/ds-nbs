@@ -2,7 +2,7 @@ version: '2'
 
 services:
   jupyter:
-    image: classtag/ds-nbs:latest
+    image: docker.io/classtag/ds-nbs:latest
     build: docker
     container_name: ds-nbs
     ports:
