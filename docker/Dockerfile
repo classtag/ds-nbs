@@ -23,5 +23,5 @@ RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
     ln -s $CONDA_DIR/bin/pip $CONDA_DIR/bin/pip3
 
 # Install XGBoost library
-RUN pip3 install tqdm xgboost lightgbm eli5 lightfm nltk
+RUN pip3 install tqdm xgboost lightgbm eli5 lightfm nltk plotnine
 RUN rm -rf /home/$NB_USER/.cache

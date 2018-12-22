@@ -9,11 +9,12 @@ export NB_USER=$USER
 cmd=$1
 if [[ $cmd == "up" ]]; then
   nohup docker-compose up > /tmp/dsn.log 2>&1 &
+  echo "running"
+  sleep 5
+  tail -n 20 /tmp/dsn.log
 fi
 
 if [[ $cmd == "down" ]]; then
   docker-compose down
+  echo "shutdown"
 fi
-echo "working"
-sleep 2
-tail -n 20 /tmp/dsn.log
