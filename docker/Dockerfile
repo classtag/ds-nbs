@@ -24,4 +24,26 @@ RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
 
 # Install XGBoost library
 RUN pip3 install tqdm xgboost lightgbm eli5 lightfm nltk plotnine
+# Install jupyterthemes
+RUN pip3 install jupyterthemes yapf && \ 
+    conda install --quiet --yes -c conda-forge \
+    jupyter_nbextensions_configurator \
+    jupyter_contrib_nbextensions \
+    qgrid \
+    ipywidgets && \
+    conda install --quiet --yes -c damianavila82 rise && \
+    conda clean -tipsy && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+# RUN jt -t onedork -tf merriserif -fs 12 -tfs 12 -nf ptsans -nfs 12 -dfs 12 -ofs 11 -cellw 86% -T
+RUN jupyter contrib nbextension install --sys-prefix && \
+    jupyter nbextension enable codefolding/main --sys-prefix && \
+    jupyter nbextension enable code_prettify/code_prettify --sys-prefix && \
+    jupyter nbextension enable hinterland/hinterland --sys-prefix && \ 
+    jupyter nbextension enable splitcell/splitcell --sys-prefix && \
+    jupyter nbextension enable toc2/main --sys-prefix && \
+    jupyter nbextension enable snippets_menu/main --sys-prefix && \
+    jupyter nbextension enable collapsible_headings/main --sys-prefix
+
+
 RUN rm -rf /home/$NB_USER/.cache
