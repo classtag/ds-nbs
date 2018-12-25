@@ -45,5 +45,15 @@ RUN jupyter contrib nbextension install --sys-prefix && \
     jupyter nbextension enable snippets_menu/main --sys-prefix && \
     jupyter nbextension enable collapsible_headings/main --sys-prefix
 
+# Install extra r packages
+RUN conda install --quiet --yes -c conda-forge \
+    "r-formatr=1.5*" \
+    "r-ggthemes=3.4.2*" \
+    "r-keras=2.1.6*" \
+    "r-tensorflow=1.9*" \
+    "r-gridextra=2.3*" && \
+    conda clean -tipsy && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 RUN rm -rf /home/$NB_USER/.cache

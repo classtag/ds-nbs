@@ -12,7 +12,7 @@ services:
 
     user: root
     environment:
-      - JUPYTER_ENABLE_LAB=yes
+      #- JUPYTER_ENABLE_LAB=yes
       - NB_USER=${NB_USER}
       - NB_UID=${NB_UID}
       - NB_GID=${NB_GID}
